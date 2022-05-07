@@ -4,11 +4,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build --mode=production",
+    "build-app": "vite build --base=/drawing-app/",
+    "preview": "vite preview",
+    "deploy": "gh-pages-deploy -- 'A custom commit message'"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.5",
+    "esbuild-windows-64": "^0.14.38",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.24",
     "vite": "^2.9.5"

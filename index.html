@@ -5,7 +5,6 @@
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio</title>
-    <link rel="stylesheet" href="./css/style.css">
   </head>
   <body class="flex flex-col items-center justify-center h-full py-8 px-8 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
     <div id="canvas-container" class="relative mb-8">
@@ -14,43 +13,42 @@
     </div>
     <div class="w-full flex flex-row justify-between">
       <div id="colors" class="grid grid-rows-2 grid-cols-4 gap-1 justify-self-start">
-        <button class="bg-white setting selected" onclick="setColor(event, 'white')"></button>
-        <button class="bg-red-500 setting" onclick="setColor(event, 'red')"></button>
-        <button class="bg-green-500 setting" onclick="setColor(event, 'green')"></button>
-        <button class="bg-blue-500 setting" onclick="setColor(event, 'blue')"></button>
-        <button id="black" class="bg-black setting" onclick="setColor(event, 'black')"></button>
-        <button class="bg-yellow-500 setting" onclick="setColor(event, 'yellow')"></button>
-        <button class="bg-orange-500 setting" onclick="setColor(event, 'orange')"></button>
-        <button class="bg-violet-500 setting" onclick="setColor(event, 'violet')"></button>
+        <button id="black" class="bg-black setting"></button>
+        <button class="bg-red-500 setting"></button>
+        <button class="bg-green-500 setting"></button>
+        <button class="bg-blue-500 setting"></button>
+        <button class="bg-white setting"></button>
+        <button class="bg-yellow-500 setting"></button>
+        <button class="bg-orange-500 setting"></button>
+        <button class="bg-violet-500 setting"></button>
       </div>
       <div id="settings" class="grid grid-rows-2 grid-cols-4 gap-1 justify-self-end">
-        <button id="pen" class="setting tool" onclick="setMode(event, 'pen')">
+        <button id="pen" class="setting tool">
           <img src="./assets/pen.svg" alt="pen">
         </button>
-        <button id="small" class="setting size" onclick="setSize(event, 5)">
+        <button id="small" class="setting size">
           <img src="./assets/small.svg" alt="small">
         </button>
-        <button id="medium" class="setting size" onclick="setSize(event, 10)">
+        <button id="medium" class="setting size">
           <img src="./assets/medium.svg" alt="medium">
         </button>
-        <button id="big" class="setting size" onclick="setSize(event, 15)">
+        <button id="big" class="setting size">
           <img src="./assets/big.svg" alt="big">
         </button>
-        <button class="setting tool" onclick="setMode(event, 'path')">
+        <button id="path" class="setting tool">
           <img src="./assets/path.svg" alt="path">
         </button>        
-        <button class="setting tool" onclick="setMode(event, 'polygon')">
+        <button id="polygon" class="setting tool">
           <img src="./assets/polygon.svg" alt="polygon">
         </button>        
-        <button class="setting tool" onclick="setMode(event, 'rect')">
+        <button id="rect" class="setting tool">
           <img src="./assets/square.svg" alt="square">
         </button>
-        <button class="setting" onclick="clearCanvas()">
+        <button id="clear" class="setting">
           <img src="./assets/clear.svg" alt="clear">
         </button>
       </div>
     </div>
-    <script src="js/colors.js"></script>
-    <script src="js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>

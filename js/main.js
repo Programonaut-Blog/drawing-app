@@ -1,3 +1,6 @@
+import '../css/style.css'
+import { colors } from "./colors";
+
 const container = document.getElementById("canvas-container");
 const canvas = document.getElementById("canvas");
 const width = 1920;
@@ -10,7 +13,14 @@ const activeEvents = {
   "mousemove": undefined
 };
 
+const sizes = {
+  'small': 5,
+  'medium': 10,
+  'big': 15
+}
+
 let drawing = false;
+
 
 // context of the canvas
 const context = canvas.getContext("2d");
@@ -20,13 +30,10 @@ context.imageSmoothingEnabled = true;
 canvas.height = height;
 canvas.width = width;
 
-// select default size
-context.lineCap = 'round';
-document.getElementById('small').firstElementChild.click();
-document.getElementById('pen').firstElementChild.click();
+initalize();
 
 window.addEventListener("load", () => {
-
+  
 });
 
 function setSize(e, size) {
@@ -34,8 +41,8 @@ function setSize(e, size) {
   selectSize(e);
 }
 
-
 function setColor(e, color) {
+  console.log(color);
   context.strokeStyle = colors[color];
   context.fillStyle = colors[color];
   selectColor(e);
@@ -57,11 +64,13 @@ function selectMode(e, newMode) {
   }
   
   const size = document.querySelector(".size.selected");
-  if (size !== undefined)
+  if (size !== null)
+  {
     size.classList.remove('hide-select');
+    if (newMode === 'rect')
+      size.classList.add('hide-select');
+  }
     
-  if (newMode === 'rect')
-  size.classList.add('hide-select');
   
   e.target.parentElement.classList.add('selected');
 
@@ -232,4 +241,29 @@ function endRect(e) {
 
 function clearCanvas() {
   context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function initalize() {
+  const colorButtons = document.getElementById('colors').children;
+  for (const colorButton of colorButtons) {
+    colorButton.addEventListener('click', (e) => { setColor(e, colorButton.classList.value.replace(/bg-(\w*).*/, '$1'))} );
+  }
+
+  const tools = document.getElementsByClassName('tool');
+  for (const tool of tools) {
+    tool.addEventListener('click', (e) => { setMode(e, tool.id)} );
+  }
+
+  const sizeButtons = document.getElementsByClassName('size');
+  for (const sizeButton of sizeButtons) {
+    sizeButton.addEventListener('click', (e) => { setSize(e, sizes[sizeButton.id])} );
+  }
+
+  document.getElementById('clear').addEventListener('click', clearCanvas);
+
+  // select default size
+  context.lineCap = 'round';
+  document.getElementById('small').firstElementChild.click();
+  document.getElementById('pen').firstElementChild.click();
+  document.getElementById('black').click();
 }
