@@ -30,14 +30,11 @@
         <button id="small" class="setting size" onclick="setSize(event, 5)">
           <img src="./assets/small.svg" alt="small">
         </button>
-        <button id="medium" class="setting size" onclick="setSize(event, 1)">
+        <button id="medium" class="setting size" onclick="setSize(event, 10)">
           <img src="./assets/medium.svg" alt="medium">
         </button>
-        <button id="big" class="setting size" onclick="setSize(event, 5)">
+        <button id="big" class="setting size" onclick="setSize(event, 15)">
           <img src="./assets/big.svg" alt="big">
-        </button>
-        <button class="setting tool" onclick="setMode(event, 'fill')">
-          <img src="./assets/fill.svg" alt="fill">
         </button>
         <button class="setting tool" onclick="setMode(event, 'path')">
           <img src="./assets/path.svg" alt="path">
@@ -47,6 +44,9 @@
         </button>        
         <button class="setting tool" onclick="setMode(event, 'rect')">
           <img src="./assets/square.svg" alt="square">
+        </button>
+        <button class="setting" onclick="clearCanvas()">
+          <img src="./assets/clear.svg" alt="clear">
         </button>
       </div>
     </div>
