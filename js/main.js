@@ -246,7 +246,7 @@ function clearCanvas() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function initalize() {
+function initialize() {
   const colorButtons = document.getElementById('colors').children;
   for (const colorButton of colorButtons) {
     colorButton.addEventListener('click', (e) => { setColor(e, colorButton.classList.value.replace(/bg-(\w*).*/, '$1'))} );
@@ -271,4 +271,4 @@ function initalize() {
   document.getElementById('black').click();
 }
 
-initalize();
+initialize();
