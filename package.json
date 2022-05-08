@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --mode=production",
-    "build-app": "vite build --base=/drawing-app/",
-    "preview": "vite preview",
-    "deploy": "gh-pages-deploy -- 'A custom commit message'"
+    "build-app": "vite build --base=/drawing-app/ --mode=production",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.5",

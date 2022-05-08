@@ -5,22 +5,6 @@ const container = document.getElementById("canvas-container");
 const canvas = document.getElementById("canvas");
 const width = 1920;
 const height = 1080;
-let mode = 'draw';
-
-const activeEvents = {
-  "mousedown": undefined,
-  "mouseup": undefined,
-  "mousemove": undefined
-};
-
-const sizes = {
-  'small': 5,
-  'medium': 10,
-  'big': 15
-}
-
-let drawing = false;
-
 
 // context of the canvas
 const context = canvas.getContext("2d");
@@ -30,19 +14,7 @@ context.imageSmoothingEnabled = true;
 canvas.height = height;
 canvas.width = width;
 
-initalize();
-
-window.addEventListener("load", () => {
-  
-});
-
-function setSize(e, size) {
-  context.lineWidth = size;
-  selectSize(e);
-}
-
 function setColor(e, color) {
-  console.log(color);
   context.strokeStyle = colors[color];
   context.fillStyle = colors[color];
   selectColor(e);
@@ -56,6 +28,8 @@ function selectColor(e) {
 
   e.target.classList.add('selected');
 }
+
+let mode = 'draw';
 
 function selectMode(e, newMode) {
   const tools = document.getElementsByClassName("tool");
@@ -77,31 +51,11 @@ function selectMode(e, newMode) {
   mode = newMode;
 }
 
-function selectSize(e) {
-  if (mode === 'rect')
-    return;
-
-  const sizes = document.getElementsByClassName("size");
-  for (const size of sizes) {
-    size.classList.remove('selected');
-  }
-  
-  if (e === undefined)
-  return;
-  
-  e.target.parentElement.classList.add('selected');
-}
-
-function getMousePos(canvas, evt) {
-  var rect = canvas.getBoundingClientRect(), // abs. size of element
-    scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
-    scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
-
-  return {
-    x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
-    y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
-  }
-}
+const activeEvents = {
+  "mousedown": undefined,
+  "mouseup": undefined,
+  "mousemove": undefined
+};
 
 function setMode(e, mode) {
   for (const event in activeEvents) {
@@ -145,9 +99,51 @@ function setMode(e, mode) {
       break;
   }
 
-
   selectMode(e, mode);
 }
+
+const sizes = {
+  'small': 5,
+  'medium': 10,
+  'big': 15
+}
+
+function setSize(e, size) {
+  context.lineWidth = size;
+  selectSize(e);
+}
+
+
+function selectSize(e) {
+  if (mode === 'rect')
+    return;
+
+  const sizes = document.getElementsByClassName("size");
+  for (const size of sizes) {
+    size.classList.remove('selected');
+  }
+  
+  if (e === undefined)
+  return;
+  
+  e.target.parentElement.classList.add('selected');
+}
+
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect(), // abs. size of element
+    scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
+    scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
+
+  return {
+    x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
+    y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
+  }
+}
+
+
+// --- Pen ---
+
+let drawing = false;
 
 function startDraw(e) {
   drawing = true;
@@ -172,6 +168,8 @@ function draw(e) {
   context.moveTo(x, y);
 }
 
+// --- Path ---
+
 function startPath(e) {
   drawing = true;
   context.beginPath();
@@ -185,6 +183,8 @@ function endPath(e) {
   context.lineTo(x, y);
   context.stroke();
 }
+
+// --- Polygon ---
 
 let poly = false;
 let polyTimeout = undefined;
@@ -228,6 +228,7 @@ function polygon(e) {
   context.stroke();
 }
 
+// --- Rect ---
 let start = {}
 
 function startRect(e) {
@@ -238,6 +239,8 @@ function endRect(e) {
     let { x, y } = getMousePos(canvas, e);
     context.fillRect(start.x, start.y, x - start.x, y - start.y);
 }
+
+// --- Clear ---
 
 function clearCanvas() {
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -261,9 +264,11 @@ function initalize() {
 
   document.getElementById('clear').addEventListener('click', clearCanvas);
 
-  // select default size
+  // set default settings
   context.lineCap = 'round';
   document.getElementById('small').firstElementChild.click();
   document.getElementById('pen').firstElementChild.click();
   document.getElementById('black').click();
 }
+
+initalize();
