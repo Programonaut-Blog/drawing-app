@@ -7,7 +7,10 @@
     <title>Drawing App</title>
   </head>
   <body class="flex flex-col items-center justify-center h-full py-8 px-8 w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
-    <canvas id="canvas" class="w-full max-h-full aspect-video border-2 border-black border-solid mb-8"></canvas>
+    <div class="relative w-full max-h-full aspect-video border-2 border-black border-solid mb-8">
+      <canvas id="canvas" class="absolute w-full h-full"></canvas>
+      <canvas id="preview" class="absolute w-full h-full"></canvas>
+    </div>
     <div class="w-full flex flex-row justify-between">
       <div id="colors" class="grid grid-rows-2 grid-cols-4 gap-1 justify-self-start">
         <button id="black" class="bg-black setting"></button>

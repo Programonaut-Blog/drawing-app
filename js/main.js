@@ -3,20 +3,31 @@ import { colors } from "./colors";
 
 const container = document.getElementById("canvas-container");
 const canvas = document.getElementById("canvas");
+const preview = document.getElementById("preview");
 const width = 1920;
 const height = 1080;
 
-// context of the canvas
-const context = canvas.getContext("2d");
-context.imageSmoothingEnabled = true;
+function setupCanvas(canvasToSetup) {
+  // context of the canvas
+  const context = canvasToSetup.getContext("2d");
+  context.imageSmoothingEnabled = true;
 
-// resize canvas (CSS does scale it up or down)
-canvas.height = height;
-canvas.width = width;
+  // resize canvas (CSS does scale it up or down)
+  canvasToSetup.height = height;
+  canvasToSetup.width = width;
+  return context;
+}
+
+const context = setupCanvas(canvas);
+const previewCtx = setupCanvas(preview);
 
 function setColor(e, color) {
   context.strokeStyle = colors[color];
   context.fillStyle = colors[color];
+
+  previewCtx.strokeStyle = colors[color];
+  previewCtx.fillStyle = colors[color];
+
   selectColor(e);
 }
 
@@ -76,9 +87,11 @@ function setMode(e, mode) {
     case 'path':
       window.addEventListener("mousedown", startPath);
       window.addEventListener("mouseup", endPath);
+      window.addEventListener("mousemove", updatePath);
 
       activeEvents['mousedown'] = startPath;
       activeEvents['mouseup'] = endPath;
+      activeEvents['mousemove'] = updatePath;
       break;
     case 'polygon':
       window.addEventListener("mousedown", startPolygon);
@@ -110,6 +123,9 @@ const sizes = {
 
 function setSize(e, size) {
   context.lineWidth = size;
+
+  previewCtx.lineWidth = size;
+
   selectSize(e);
 }
 
@@ -170,10 +186,34 @@ function draw(e) {
 
 // --- Path ---
 
+const startPos = {
+  x: 0,
+  y: 0
+}
+
 function startPath(e) {
   drawing = true;
   context.beginPath();
+
+  let { x, y } = getMousePos(canvas, e);
+  startPos.x = x;
+  startPos.y = y;
+
   draw(e)
+}
+
+function updatePath(e) {
+  if (!drawing) return;
+  clearCanvas(previewCtx);
+
+  let { x: startX, y: startY } = startPos;
+  let { x, y } = getMousePos(canvas, e);
+  console.log(startX, startY, x, y);
+
+  previewCtx.beginPath();
+  previewCtx.moveTo(startX, startY);
+  previewCtx.lineTo(x, y);
+  previewCtx.stroke();
 }
 
 function endPath(e) {
@@ -242,7 +282,8 @@ function endRect(e) {
 
 // --- Clear ---
 
-function clearCanvas() {
+function clearCanvas(context) {
+  console.log("Clearing canvas");
   context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -262,7 +303,7 @@ function initialize() {
     sizeButton.addEventListener('click', (e) => { setSize(e, sizes[sizeButton.id])} );
   }
 
-  document.getElementById('clear').addEventListener('click', clearCanvas);
+  document.getElementById('clear').addEventListener('click', (e) => clearCanvas(context));
 
   // set default settings
   context.lineCap = 'round';
